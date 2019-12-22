@@ -46,10 +46,21 @@ class HelperCurl {
 
         $response = curl_exec($ch);
         //we get the status_code of the request we made
-        self::$status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        self::$status_code = self::getStatusCode($ch);
         curl_close($ch);
-
         return $response;
+    }
+
+    /**
+     * Get the status code of the curl request
+     *
+     * @param curl object
+     *
+     * @return int returns the status code of the curl request
+     */
+
+    private static function getStatusCode($ch){
+        return curl_getinfo($ch, CURLINFO_HTTP_CODE)
     }
 
 }
