@@ -37,10 +37,13 @@ class HelperCurl {
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_CONNECTTIMEOUT => 10,
             CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_HTTPHEADER => $headers,
+            
             CURLOPT_USERAGENT => self::getUserAgent(),
             CURLOPT_HEADER => false
         );
+        if(count($headers)>0){
+            $options[CURLOPT_HTTPHEADER] = $headers;
+        }
         curl_setopt_array($ch, $options);
 
         $response = curl_exec($ch);
@@ -84,11 +87,13 @@ class HelperCurl {
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_CONNECTTIMEOUT => 150,
             CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_HTTPHEADER => $headers,
             CURLOPT_POSTFIELDS => http_build_query($fields),
             CURLOPT_POST => true,
             CURLOPT_USERAGENT => self::getUserAgent(),
         );
+        if(count($headers)>0){
+            $options[CURLOPT_HTTPHEADER] = $headers;
+        }
         curl_setopt_array($ch, $options);
         $response = curl_exec($ch);
         self::$status_code = self::getStatusCode();
