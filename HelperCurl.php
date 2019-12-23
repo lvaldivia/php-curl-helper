@@ -131,6 +131,44 @@ class HelperCurl {
         return $response;
     }
 
+
+
+
+     /**
+     * Performs a delete request on the chosen link and the chosen parameters
+     * in the array.
+     *
+     * @param string $url
+     * @param array $headers
+     * @param array $fields
+     *
+     * @return string with the contents of the site
+     */
+
+
+    public static function delete($url,$headers=array(),$fields=array())
+    {
+        $ch = curl_init();
+        $options = array(
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CONNECTTIMEOUT => 150,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_CUSTOMREQUEST => "DELETE",
+            CURLOPT_POSTFIELDS => http_build_query($fields),
+            CURLOPT_POST => true,
+            CURLOPT_USERAGENT => self::getUserAgent(),
+        );
+        if(count($headers)>0){
+            $options[CURLOPT_HTTPHEADER] = $headers;
+        }
+        curl_setopt_array($ch, $options);
+        $response = curl_exec($ch);
+        self::$status_code = self::getStatusCode();
+        curl_close($ch);
+        return $response;
+    }
+
 }
 
 ?>
